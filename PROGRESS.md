@@ -18,3 +18,9 @@
 - Implemented monthly budget tracking and enforcement in `app/cost_guard.py` with 402 Payment Required responses.
 - Connected authentication, rate limiter, cost guard, mock LLM, conversation store, and logging in `/ask` endpoint in `app/main.py`.
 - Added `tests/test_cp3.py` to `testpaths` in `pytest.ini`.
+
+## Task 4: CP4 reliability (Redis store, readiness, graceful shutdown)
+- Implemented `ping`, `append`, and `get_history` in `ConversationStore` (`app/store.py`) using Redis operations with message trimming and TTL.
+- Implemented graceful shutdown handling in `Lifecycle` (`app/lifecycle.py`) to manage shutdown status and signal delegation for SIGTERM and SIGINT.
+- Added readiness probe endpoint `/ready` in `app/main.py` responding based on lifecycle shutdown state and Redis connection status.
+- Added `tests/test_cp4.py` to `testpaths` in `pytest.ini`.
