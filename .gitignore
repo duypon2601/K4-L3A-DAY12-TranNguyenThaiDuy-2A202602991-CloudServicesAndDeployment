@@ -26,3 +26,8 @@ solution/
 .auto-logs/
 REVIEW.md
 TASK_SUMMARY.md
+
+# autowf (Claude plan + agy) — file làm việc nội bộ
+.autowf.env
+PLAN.md
+PROGRESS.md
