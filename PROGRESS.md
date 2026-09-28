@@ -31,3 +31,10 @@
 - Created tests/test_support.py validating /usage authentication, metrics calculation, rate-limit bypassing, and /health reporting.
 - Added tests/test_support.py to testpaths in pytest.ini.
 - Documented customer support theme and /usage endpoint usage with curl in README.md.
+
+## Task 6: Bonus CI/CD workflow + README badge
+- Created GitHub Actions CI/CD workflow in `.github/workflows/ci.yml` with `test`, `build`, and `deploy` jobs triggered on push to main and pull requests.
+- Configured pinned action versions (`actions/checkout@v4`, `actions/setup-python@v5`), automated dependency installation, and pytest execution in the CI test job.
+- Added Docker image build step and automated Railway deployment gated behind successful test passes on the main branch.
+- Added the GitHub Actions CI workflow status badge under the main title in `README.md`.
+- Added `tests/test_bonus_cicd.py` to `testpaths` in `pytest.ini` and verified the full test suite passes.
