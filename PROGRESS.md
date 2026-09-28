@@ -24,3 +24,10 @@
 - Implemented graceful shutdown handling in `Lifecycle` (`app/lifecycle.py`) to manage shutdown status and signal delegation for SIGTERM and SIGINT.
 - Added readiness probe endpoint `/ready` in `app/main.py` responding based on lifecycle shutdown state and Redis connection status.
 - Added `tests/test_cp4.py` to `testpaths` in `pytest.ini`.
+
+## Task 5: Customer-support theme + /usage endpoint
+- Configured SERVICE_NAME to "customer-support-agent" and updated FastAPI title to "Customer Support Agent" in app/main.py.
+- Implemented authenticated GET /usage endpoint returning current quota, rate limits, spent USD, and remaining budget without recording rate-limit hits or calling the LLM.
+- Created tests/test_support.py validating /usage authentication, metrics calculation, rate-limit bypassing, and /health reporting.
+- Added tests/test_support.py to testpaths in pytest.ini.
+- Documented customer support theme and /usage endpoint usage with curl in README.md.

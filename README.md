@@ -87,6 +87,24 @@ Sau buổi lab này, bạn sẽ:
 
 ---
 
+## Chủ Đề: Trợ Lý Hỗ Trợ Khách Hàng
+
+Hệ thống hoạt động với vai trò là một **Customer Support Agent** công khai. Do nhiều khách hàng cùng dùng chung một địa chỉ URL công khai, các cơ chế xác thực API key (`X-API-Key`), giới hạn tần suất request theo từng khách hàng (`X-User-Id`) qua sliding window rate limiting và kiểm soát ngân sách chi phí hàng tháng (cost guard) là những lớp bảo vệ thiết yếu để giữ chi phí không bị vượt mức kiểm soát.
+
+### Tra cứu hạn mức và chi phí với endpoint `/usage`
+
+Endpoint `GET /usage` cho phép khách hàng tra cứu mức sử dụng request trong phút gần nhất, giới hạn request, chi phí đã chi tiêu trong tháng, ngân sách tháng và ngân sách còn lại. Endpoint này **không gọi mô hình LLM** và **không tính lượt rate limit hit**.
+
+Ví dụ gọi qua `curl`:
+
+```bash
+curl -X GET "http://localhost:8000/usage" \
+  -H "X-API-Key: $AGENT_API_KEY" \
+  -H "X-User-Id: customer-01"
+```
+
+---
+
 ## Lịch Trình & Checkpoint
 
 | Thời gian từ lúc bắt đầu | Nội dung | Checkpoint | Điểm |

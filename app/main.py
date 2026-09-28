@@ -30,7 +30,7 @@ from .logging_utils import log_event
 from .rate_limiter import RateLimiter
 from .store import ConversationStore, get_redis_client
 
-SERVICE_NAME = "day12-agent"
+SERVICE_NAME = "customer-support-agent"
 SERVICE_VERSION = "1.0.0"
 
 
@@ -63,7 +63,7 @@ async def lifespan(_app: FastAPI):
     log_event("service_stopped", service=SERVICE_NAME)
 
 
-app = FastAPI(title="Day 12 Production Agent", version=SERVICE_VERSION, lifespan=lifespan)
+app = FastAPI(title="Customer Support Agent", version=SERVICE_VERSION, lifespan=lifespan)
 
 
 class AskRequest(BaseModel):
@@ -171,6 +171,25 @@ def ask(
         "history_length": len(history),
         "cost_usd": result["cost_usd"],
         "tokens": {"in": result["tokens_in"], "out": result["tokens_out"]},
+    }
+
+
+@app.get("/usage")
+def usage(
+    user_id: str = Depends(verify_api_key),
+    limiter: RateLimiter = Depends(get_rate_limiter),
+    guard: CostGuard = Depends(get_cost_guard),
+):
+    """Báo cáo tình trạng sử dụng quota và ngân sách của khách hàng."""
+    spent = guard.spent(user_id)
+    budget = guard.budget
+    return {
+        "user_id": user_id,
+        "requests_last_minute": limiter.hit_count(user_id),
+        "rate_limit_per_minute": limiter.limit,
+        "spent_usd": spent,
+        "monthly_budget_usd": budget,
+        "budget_remaining_usd": max(0.0, budget - spent),
     }
 
 
